@@ -1,0 +1,26 @@
+<app-user-area></app-user-area>
+<div>
+    
+    <ul>
+        <li *ngFor="let p of sections">
+            <a href="#" 
+              (click)="triggerNavigationRequest(p)">
+              {{p | translate}}
+              <div class="cardCounter" *ngIf="p === 'card'">
+                  <span>{{card.count}}</span>
+              </div>
+            </a>
+        </li>
+        <li>
+            <select [(ngModel)]="locale.locale" name="locale.locale">
+                <option *ngFor="let l of locale.localeList" [ngValue] = "l.code">{{l?.title}}</option>
+            </select>
+        </li>
+    </ul>
+    
+    <div class='socialLinks'>
+        <i class="fa fa-facebook"></i>
+        <i class="fa fa-twitter"></i>
+        <i class="fa fa-envelope"></i>
+    </div>
+</div>

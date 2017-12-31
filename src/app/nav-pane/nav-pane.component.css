@@ -1,0 +1,35 @@
+a{
+    text-transform: capitalize;
+}
+
+.cardCounter{
+    margin-left: 25px;
+    background-color: lightcoral; 
+    color: white; 
+    font-weight: bold;
+    border-radius: 25px;
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+    width: 20px;
+}
+
+.cardCounter span{
+    align-self: center; 
+    width:100%; 
+    text-align: center;
+}
+
+app-user-area{
+    text-align: center;
+}
+
+.socialLinks{
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    bottom: 0;
+    color: whitesmoke;
+    align-content: space-between;
+}

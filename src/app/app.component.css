@@ -1,0 +1,48 @@
+.header{
+    display: -webkit-flex;
+    direction: ltr;    
+    align-items: center;
+    background-color: rgb(163, 201, 216);
+    width: 100%;
+    height: 150px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.header h1{
+    vertical-align: -webkit-baseline-middle;
+}
+
+.header img{
+    height: 100%;
+}
+
+.wrapper{
+    background-color: #eee;
+    display:  flex;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: calc(100% - 150px);
+    min-height: calc(100% - 150px);
+    max-height: calc(100% - 150px);
+    margin: 0;
+}
+
+.nav-bar{
+    background-color: rgb(163, 201, 216);
+    display: block;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    height: 100%;
+}
+
+.content{
+    background-color: rgb(145, 228, 200);
+    display: block;
+    width: calc(100% -200px);
+    min-width: calc(100% -200px);
+    max-width: calc(100% -200px);
+    height: 100%;
+}

@@ -1,0 +1,8 @@
+<div class='section-title'>
+    <span>{{'card' | translate}}</span>
+</div>
+<div class="section-content">
+  <span *ngFor="let p of items">
+      {{p.title}} - {{p.price | currency}}
+  </span> 
+</div>
