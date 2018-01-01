@@ -63,6 +63,10 @@ function buildDictionaryEN() : KeyedCollection<string>{
   result.Add('username', 'Username');
   result.Add('password', 'Password');
   result.Add('angularshop', 'Angular Shop');
+  result.Add('details', 'Details');
+  result.Add('close', 'Close');
+  result.Add('add', 'Add');
+  result.Add('remove', 'Remove');
   
 
   return result;
@@ -83,6 +87,10 @@ function buildDictionaryHE() : KeyedCollection<string>{
   result.Add('username', 'שם משתמש');
   result.Add('password', 'סיסמה');
   result.Add('angularshop', 'ברוכים הבאים');
+  result.Add('details', 'פרטים');
+  result.Add('close', 'סגור');
+  result.Add('add', 'הוסף');
+  result.Add('remove', 'הוצא');
 
   return result;
 }

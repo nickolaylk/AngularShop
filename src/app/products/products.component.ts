@@ -46,4 +46,9 @@ export class ProductsComponent implements OnInit {
     this.selectedProduct = product;
   }
 
+  onProductClosed(product: Product){
+    if(this.selectedProduct === product){
+      this.selectedProduct = null;
+    }
+  }
 }

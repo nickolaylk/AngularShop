@@ -18,6 +18,8 @@ import { UserService } from './common/services/user.service';
 import { LocalizationService } from './common/services/localization.service';
 import { FormsModule } from '@angular/forms';
 import { LocalPipe } from './common/local-pipe';
+import { ProductFullComponent } from './products/product-full/product-full.component';
+import { ProductBase } from './products/product-base';
 
 const dataServiceFactory = () => new DataService(5);
 const cardServiceFactory = () => new ShoppingCardService();
@@ -36,7 +38,8 @@ const localeServiceFactory = () => new LocalizationService('en');
     NavPaneComponent,
     UserAreaComponent,
     CardComponent,
-    LocalPipe
+    LocalPipe,
+    ProductFullComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<div class='section-title'>
+<div *ngIf="selectedProduct == null" class='section-title'>
   <span>{{'products' | translate}}</span>
   <select [(ngModel)]="selectedCategory" name="selectedCategory">
     <option *ngFor="let c of categories" [ngValue] = "c">{{c?.title || locale.translate('all')}}</option>
@@ -6,8 +6,9 @@
 </div>
 <div class='section-content'>
   <app-product-list *ngIf="selectedProduct == null" [products] = products
-  (productSelected)="onProductSelected($event)">
+    (productSelected)="onProductSelected($event)">
   </app-product-list>
-  <app-product *ngIf="selectedProduct != null">
-  </app-product>
+  <app-product-full *ngIf="selectedProduct != null" [product] = selectedProduct
+    (onClose)="onProductClosed($event)">
+  </app-product-full>
 </div>

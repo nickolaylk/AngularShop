@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { Product } from '../../model/product';
+import { ShoppingCardService } from '../../common/services/shopping-card.service';
+import { UserService } from '../../common/services/user.service';
+import { ProductBase } from '../product-base';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent extends ProductBase {
 
-  constructor() { }
+  @Output()
+  onSelect: EventEmitter<Product> = new EventEmitter<Product>();
 
-  ngOnInit() {
+  close(){
+    this.onSelect.emit(this.product);
   }
-
 }

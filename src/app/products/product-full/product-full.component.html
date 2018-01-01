@@ -1,0 +1,28 @@
+<div class="fill">
+   
+  <img [src]="product.image" style="height: 250px;">
+  <h5>{{product.title}}</h5>
+  <span>{{product.description}}</span>
+  <h5>{{product.price | currency}}</h5>
+  
+  <br/>
+
+  <button class="btn btn-primary" 
+        (click)="close()">
+      {{'close' | translate}}
+  </button>
+  
+  <button class="btn btn-warning" 
+        *ngIf="inCard && user.loggedIn" 
+        (click)="removeFromCard()">
+        <i class="fa fa-shopping-cart"></i> {{'remove' | translate}}
+  </button>
+  
+  <button class="btn btn-success" 
+        *ngIf="!inCard  && user.loggedIn" 
+        (click)="addToCard()">
+        <i class="fa fa-shopping-cart"></i> {{'add' | translate}}
+  </button>
+  
+</div>
+

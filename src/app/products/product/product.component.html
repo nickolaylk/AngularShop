@@ -1,3 +1,22 @@
-<p>
-  product works!
-</p>
+<div class="product-image">
+    <img [src]="product.image">
+</div>
+<div class="product-description">
+  <span>{{product.title}}</span> - <span>{{product.price | currency}}</span>
+  <button class="btn btn-primary" 
+          (click)="close()">
+      {{'details' | translate}}
+  </button>
+  
+  <button class="btn btn-warning" 
+          *ngIf="inCard && user.loggedIn" 
+          (click)="removeFromCard()">
+          <i class="fa fa-shopping-cart"></i> {{'remove' | translate}}
+  </button>
+  
+  <button class="btn btn-success" 
+          *ngIf="!inCard  && user.loggedIn" 
+          (click)="addToCard()">
+          <i class="fa fa-shopping-cart"></i> {{'add' | translate}}
+  </button>
+</div>

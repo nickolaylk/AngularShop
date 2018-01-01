@@ -45,7 +45,7 @@ function generateCategories(count: number): Array<Category>{
 }
 
 function generateProducts(categories: Array<Category>) :Array<Product>{
-  let count = getRandomInt(50, 100);
+  let count = getRandomInt(10, 25);
   let result = new Array<Product>();
 
   for(let i=0; i < count; i++){

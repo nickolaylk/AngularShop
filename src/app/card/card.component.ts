@@ -22,9 +22,9 @@ export class CardComponent {
     return this.card.sum;
   }
 
-  sumChanged = new EventEmitter<number>();
-  countChanged = new EventEmitter<number>();
-  itemsChanged = new EventEmitter<Array<Product>>();
+  sumChanged: EventEmitter<number> = new EventEmitter<number>();
+  countChanged: EventEmitter<number> = new EventEmitter<number>();
+  itemsChanged: EventEmitter<Array<Product>> = new EventEmitter<Array<Product>>();
 
   constructor(private readonly card: ShoppingCardService,
     public locale: LocalizationService) {
