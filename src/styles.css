@@ -75,7 +75,7 @@ body{
   margin-left: 10px;
   margin-bottom: 10px;
   height: 190px;
-  width: 190px;
+  width: 220px;
   padding: 0px;
 }
 .product-image{
@@ -104,5 +104,13 @@ body{
   padding-bottom: 9px;
   padding-right: 6px;
   padding-left: 6px;
+}
+
+.add-new-button{
+  padding: 0px;
+  text-align: center;
+  height: 21px;
+  width: 21px;
+  margin-top: -2px;
 }
 

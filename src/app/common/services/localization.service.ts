@@ -5,6 +5,7 @@ import { KeyedCollection } from '../KeyedCollection';
 export class LocalizationService {
 
   private _dictionary: KeyedCollection<string>; 
+  private _direction: string = "ltr";
 
   get localeList(){
     return [
@@ -13,6 +14,9 @@ export class LocalizationService {
     ]
   }
 
+  get direction():string{
+    return this._direction;
+  }
   get locale(){
     return this._locale
   }
@@ -21,11 +25,12 @@ export class LocalizationService {
       case 'EN':
         this._locale = value;
         this._dictionary = buildDictionaryEN();
-        
+        this._direction = "ltr";
         break;
       case 'HE':
         this._locale = value;
         this._dictionary = buildDictionaryHE();
+        this._direction = "rtl";
         break;
       default:
         break;
@@ -67,8 +72,8 @@ function buildDictionaryEN() : KeyedCollection<string>{
   result.Add('close', 'Close');
   result.Add('add', 'Add');
   result.Add('remove', 'Remove');
+  result.Add('Are you sure ?', 'Are you sure ?');
   
-
   return result;
 }
 
@@ -91,6 +96,7 @@ function buildDictionaryHE() : KeyedCollection<string>{
   result.Add('close', 'סגור');
   result.Add('add', 'הוסף');
   result.Add('remove', 'הוצא');
+  result.Add('Are you sure ?', 'אתה בטוח?');
 
   return result;
 }

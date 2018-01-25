@@ -14,6 +14,10 @@ export class UserService {
     return this._currentUser ? this._currentUser.isAdmin : false;
   }
 
+  get shoppingCardAvailable(): boolean{
+    return this._currentUser ? this._currentUser.shoppingCardAvailable : false;
+  }
+
   get loggedIn(): boolean{
     return this._currentUser != null;
   }
@@ -23,7 +27,12 @@ export class UserService {
   loggedInChanged = new EventEmitter<boolean>();
 
   constructor() { 
-    this._currentUser = null;
+    //dev case (remove after dev)
+    this._currentUser = new User();
+    this._currentUser.username = 'dev';
+    this._currentUser.isAdmin = true;
+    this._currentUser.shoppingCardAvailable = true;
+    //this._currentUser = null;
   }
 
   login(username: string, pwd: string): boolean{
@@ -32,6 +41,7 @@ export class UserService {
       this._currentUser = new User();
       this._currentUser.username = username;
       this._currentUser.isAdmin = this._currentUser.username.toLowerCase().startsWith('admin');
+      this._currentUser.shoppingCardAvailable = !this._currentUser.isAdmin;
       this.usernameChanged.emit(this.username);
       this.isAdminChanged.emit(this.isAdmin);
       this.loggedInChanged.emit(this.loggedIn);

@@ -25,22 +25,27 @@ export class AppComponent {
               public card: ShoppingCardService, 
               private auth: UserService){
     
+    this.setSections();
     this.auth.loggedInChanged.subscribe(() => {
-      if(this.auth.loggedIn){
-        this.sections = [...this._baseSections, 'card'];
-      } 
-      else{
-        this.sections = this._baseSections;
-        if(card.items){
-          while(card.items.length > 0){
-            card.delete(card.items[0]);
-          }
-        }
-      }
+      this.setSections();
     });
   }
 
   onNavigationRequested(section: string) {
     this.selectedSection = section;
+  }
+
+  private setSections(){
+    if(this.auth.shoppingCardAvailable){
+      this.sections = [...this._baseSections, 'card'];
+    } 
+    else{
+      this.sections = this._baseSections;
+      if(this.card.items){
+        while(this.card.items.length > 0){
+          this.card.delete(this.card.items[0]);
+        }
+      }
+    }
   }
 }

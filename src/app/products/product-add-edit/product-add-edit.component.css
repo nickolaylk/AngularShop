@@ -1,0 +1,25 @@
+
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form) {
+    border: 5px solid #a94442; /* red */
+}
+  
+.error-text{
+    font-size: x-small;
+    color: #a94442;
+}
+
+.error-text:before {
+    content: "*";
+    margin-right: 2px;
+}
+
+.input-group-addon{
+    width: 150px;
+}
+
+.form-control{
+    width: 300px;
+}

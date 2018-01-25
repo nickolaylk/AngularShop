@@ -16,6 +16,10 @@ export class ProductListComponent {
 
   @Output()
   productSelected = new EventEmitter<Product>();
+  @Output()
+  productEditCalled = new EventEmitter<Product>();
+  @Output()
+  productDeleted: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(private _dataService: DataService,
         private card: ShoppingCardService) { }
@@ -23,6 +27,11 @@ export class ProductListComponent {
   onProductSelected(product: Product){
     this.productSelected.emit(product);
   }
+
+  onProductEditCalled(product: Product){
+    this.productEditCalled.emit(product);
+  }
+
 
   addToCard(product: Product){
     this.card.add(product);
@@ -32,4 +41,7 @@ export class ProductListComponent {
     this.card.delete(product);
   }
   
+  deleteProduct(product: Product){
+    this.productDeleted.emit(product);
+  }
 }

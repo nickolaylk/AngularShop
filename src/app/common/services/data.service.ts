@@ -33,6 +33,27 @@ export class DataService {
       return this.products;
     }
   }
+
+  addProduct(product: Product){
+    if(this.products.indexOf(product) <= 0){
+      this.products.push(product);
+    }
+  }
+
+  deleteProduct(product: Product){
+    let index = this.products.indexOf(product);
+
+    if(index >= 0){
+      delete this.products[index];
+      this.products.splice(index, 1);
+    }
+  }
+
+  updateProduct(target: Product, newData: Product){
+    for(let property in newData){
+      target[property] = newData[property];
+    }
+  }
 }
 
 function generateCategories(count: number): Array<Category>{

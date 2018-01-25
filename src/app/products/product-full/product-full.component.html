@@ -1,4 +1,4 @@
-<div class="fill">
+<div class="fill" [dir]="locale.direction">
    
   <img [src]="product.image" style="height: 250px;">
   <h5>{{product.title}}</h5>
@@ -13,16 +13,28 @@
   </button>
   
   <button class="btn btn-warning" 
-        *ngIf="inCard && user.loggedIn" 
+        *ngIf="inCard && user.loggedIn && user.shoppingCardAvailable" 
         (click)="removeFromCard()">
         <i class="fa fa-shopping-cart"></i> {{'remove' | translate}}
   </button>
   
   <button class="btn btn-success" 
-        *ngIf="!inCard  && user.loggedIn" 
+        *ngIf="!inCard  && user.loggedIn && user.shoppingCardAvailable" 
         (click)="addToCard()">
         <i class="fa fa-shopping-cart"></i> {{'add' | translate}}
   </button>
   
+  <button class="btn btn-success" 
+          *ngIf="user.isAdmin" 
+          (click)="edit()">
+          <i class="fa fa-pencil"></i>
+  </button>
+
+  <button class="btn btn-success" 
+          *ngIf="user.isAdmin" 
+          (click)="delete()">
+          <i class="fa fa-trash"></i>
+  </button>
+
 </div>
 

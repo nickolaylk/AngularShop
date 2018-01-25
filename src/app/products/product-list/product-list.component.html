@@ -1,5 +1,8 @@
 <section class="products-list">
   <div class="product-container shadow-box" *ngFor="let p of products">
-      <app-product [product] = p (onSelect) = onProductSelected(p)></app-product>
+      <app-product [product] = p 
+        (onSelect) = onProductSelected(p)
+        (onEdit) = onProductEditCalled(p)>
+      </app-product>
   </div>
 </section>
