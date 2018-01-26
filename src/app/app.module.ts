@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { LocalPipe } from './common/local-pipe';
 import { ProductFullComponent } from './products/product-full/product-full.component';
 import { ProductAddEditComponent } from './products/product-add-edit/product-add-edit.component';
+import { ConfirmButtonDirective } from './common/directives/confirm-button.directive';
 
 const dataServiceFactory = () => new DataService(5);
 const cardServiceFactory = () => new ShoppingCardService();
@@ -40,7 +41,8 @@ const localeServiceFactory = () => new LocalizationService('en');
     CardComponent,
     LocalPipe,
     ProductFullComponent,
-    ProductAddEditComponent
+    ProductAddEditComponent,
+    ConfirmButtonDirective
   ],
   imports: [
     BrowserModule,

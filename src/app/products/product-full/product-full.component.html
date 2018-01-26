@@ -32,7 +32,9 @@
 
   <button class="btn btn-success" 
           *ngIf="user.isAdmin" 
-          (click)="delete()">
+          appConfirmButton
+          promptText = "{{locale.translate('are you sure?')}}"
+          (onConfirm)="delete()">
           <i class="fa fa-trash"></i>
   </button>
 
