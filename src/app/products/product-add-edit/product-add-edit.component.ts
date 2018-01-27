@@ -5,6 +5,7 @@ import { Category } from '../../model/category';
 import { DataService } from '../../common/services/data.service';
 import { Input } from '@angular/core/src/metadata/directives';
 import { LocalizationService } from '../../common/services/localization.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product-add-edit',
@@ -49,7 +50,8 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
   onClose: EventEmitter<Product> = new EventEmitter<Product>();
   
 
-  constructor(protected dataService: DataService,
+  constructor(private dataService: DataService,
+              private location: Location,
               public locale: LocalizationService){super();}
   
   ngOnInit(){
@@ -74,7 +76,8 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
   }
 
   close(){
-    this.onClose.emit(this.product);
+    //this.onClose.emit(this.product);
+    this.location.back();
   }
 
   reset(){

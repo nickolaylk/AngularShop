@@ -69,6 +69,7 @@ body{
   overflow-x: hidden;
   max-height: 100%; 
   height: 60vh;
+  position: relative;
 }
 
 .product-container{
@@ -86,7 +87,7 @@ body{
   min-height: 120px;
   max-height: 120px;
   text-align:center;
-  display:flex;
+  
   align-items: center;
   justify-content: center;
 }
@@ -104,6 +105,19 @@ body{
   padding-bottom: 9px;
   padding-right: 6px;
   padding-left: 6px;
+}
+.product-controls{
+  position: absolute;
+  z-index:100; 
+  width:100%;
+  margin: 5px;
+  opacity: .8;
+}
+.product-controls button{
+  height: 21px;
+  width: 21px;
+  padding: 0px;
+  text-align: center;
 }
 
 .add-new-button{

@@ -28,10 +28,12 @@ export class UserService {
 
   constructor() { 
     //dev case (remove after dev)
+    
     this._currentUser = new User();
     this._currentUser.username = 'dev';
     this._currentUser.isAdmin = true;
     this._currentUser.shoppingCardAvailable = true;
+    
     //this._currentUser = null;
   }
 

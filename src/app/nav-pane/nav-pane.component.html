@@ -3,8 +3,7 @@
     
     <ul>
         <li *ngFor="let p of sections">
-            <a href="#" 
-              (click)="triggerNavigationRequest(p)">
+            <a routerLink = "/{{p}}">
               {{p | translate}}
               <div class="cardCounter" *ngIf="p === 'card'">
                   <span>{{card.count}}</span>

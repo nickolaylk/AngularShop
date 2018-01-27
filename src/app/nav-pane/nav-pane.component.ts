@@ -13,14 +13,8 @@ export class NavPaneComponent {
   @Input()
   sections: Array<string>;
   
-  @Output() 
-  navigationRequested = new EventEmitter<string>();
-
   constructor(public locale: LocalizationService, 
               public card: ShoppingCardService){
   }
 
-  triggerNavigationRequest(section: string) {
-    this.navigationRequested.emit(section);
-  }
 }

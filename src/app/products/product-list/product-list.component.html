@@ -1,8 +1,35 @@
+<div class='section-title'>
+    
+  <span>{{'products' | translate}}</span>
+  <select [(ngModel)]="selectedCategory" name="selectedCategory">
+    <option *ngFor="let c of categories" [ngValue] = "c">{{c?.title || locale.translate('all')}}</option>
+  </select>
+  <button class="btn btn-primary add-new-button" 
+          (click)="onModeSwitch(null)"
+          *ngIf="user?.isAdmin">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+  </button>
+
+</div>
+
 <section class="products-list">
   <div class="product-container shadow-box" *ngFor="let p of products">
-      <app-product [product] = p 
+      <div class="product-controls" *ngIf="user?.isAdmin">
+          <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
+          <button class="btn btn-default" 
+                appConfirmButton
+                promptText = "{{locale.translate('are you sure?')}}"
+                (onConfirm)="delete(p)">
+            <i class="fa fa-trash"></i>
+          </button>
+    
+        </div>
+      <app-product 
+      
+        [product] = p 
         (onSelect) = onProductSelected(p)
         (onEdit) = onProductEditCalled(p)>
+        
       </app-product>
   </div>
 </section>

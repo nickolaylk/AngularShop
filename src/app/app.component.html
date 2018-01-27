@@ -5,29 +5,11 @@
 </div>
 <div class="wrapper">
     <div class="nav-bar">
-        <app-nav-pane [sections] = sections
-              (navigationRequested)="onNavigationRequested($event)">
-        </app-nav-pane>
+        <app-nav-pane [sections] = routes></app-nav-pane>
       </div>
     
     <div class="section shadow-box" main-area>
-        <ng-container [ngSwitch]="selectedSection">
-            <div *ngSwitchCase="'home'">
-                <app-home></app-home>
-            </div>
-            <div *ngSwitchCase="'about'">
-                <app-about></app-about>
-            </div>
-            <div *ngSwitchCase="'products'">
-                <app-products></app-products>
-            </div>
-            <div *ngSwitchCase="'card'">
-                    <app-card></app-card>
-                </div>
-            <div *ngSwitchCase="'contact'">
-                <app-contact></app-contact>
-            </div>
-        </ng-container>
+        <router-outlet></router-outlet>
     </div>
   
 </div>

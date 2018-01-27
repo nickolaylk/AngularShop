@@ -1,30 +1,3 @@
-<div *ngIf="!editorEnabled && selectedProduct == null" class='section-title'
-[dir]="locale.direction">
-  <span>{{'products' | translate}}</span>
-  <select [(ngModel)]="selectedCategory" name="selectedCategory">
-    <option *ngFor="let c of categories" [ngValue] = "c">{{c?.title || locale.translate('all')}}</option>
-  </select>
-  <button class="btn btn-primary add-new-button" 
-          (click)="onModeSwitch(null)"
-          *ngIf="user?.isAdmin">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-  </button>
-</div>
 <div class='section-content' [dir]="locale.direction">
-  <app-product-list *ngIf="!editorEnabled && selectedProduct == null" 
-    [products] = products
-    (productSelected)="onProductSelected($event)"
-    (productEditCalled)="onModeSwitch($event)"
-    (productDeleted) = "onProductDeleted($event)">
-  </app-product-list>
-  <app-product-full *ngIf="!editorEnabled && selectedProduct != null" 
-    [product] = selectedProduct
-    (onClose)="onProductClosed($event)"
-    (onEdit)="onModeSwitch($event)"
-    (onDelete)="onProductDeleted($event)">
-  </app-product-full>
-  <app-product-add-edit *ngIf="editorEnabled" 
-    [product] = editedProduct
-    (onClose)="onModeSwitch($event)">
-  </app-product-add-edit>
+    <router-outlet></router-outlet>
 </div>

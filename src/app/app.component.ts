@@ -5,6 +5,7 @@ import { LocalizationService } from './common/services/localization.service';
 import { ShoppingCardService } from './common/services/shopping-card.service';
 import { Product } from './model/product';
 import { UserService } from './common/services/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,34 +14,31 @@ import { UserService } from './common/services/user.service';
 })
 export class AppComponent {
   
-  private _baseSections: Array<string> = ['home', 'about', 'products', 'contact'];
+  private _baseRoutes: Array<string> = ['home', 'about', 'products', 'contact'];
   
   title = 'Angular Shop';
   logoImageUri = '../assets/images/logo.gif';
 
-  sections: Array<string> = this._baseSections;
-  selectedSection: string = this.sections[0];
-
+  routes: Array<string> = this._baseRoutes;
+  
   constructor(public locale: LocalizationService, 
               public card: ShoppingCardService, 
-              private auth: UserService){
+              private auth: UserService,
+              private router: Router, 
+              private route: ActivatedRoute){
     
-    this.setSections();
+    this.setRoutes();
     this.auth.loggedInChanged.subscribe(() => {
-      this.setSections();
+      this.setRoutes();
     });
   }
 
-  onNavigationRequested(section: string) {
-    this.selectedSection = section;
-  }
-
-  private setSections(){
+  private setRoutes(){
     if(this.auth.shoppingCardAvailable){
-      this.sections = [...this._baseSections, 'card'];
+      this.routes = [...this._baseRoutes, 'card'];
     } 
     else{
-      this.sections = this._baseSections;
+      this.routes = this._baseRoutes;
       if(this.card.items){
         while(this.card.items.length > 0){
           this.card.delete(this.card.items[0]);
