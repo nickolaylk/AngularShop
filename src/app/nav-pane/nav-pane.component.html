@@ -3,7 +3,9 @@
     
     <ul>
         <li *ngFor="let p of sections">
-            <a routerLink = "/{{p}}">
+            <a routerLink = "/{{p}}" 
+                routerLinkActive="active-link-class" 
+                [routerLinkActiveOptions]={exact:true}>
               {{p | translate}}
               <div class="cardCounter" *ngIf="p === 'card'">
                   <span>{{card.count}}</span>

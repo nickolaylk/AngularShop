@@ -6,23 +6,23 @@ import { Product } from '../../model/product';
 @Injectable()
 export class DataService {
 
-  private readonly categories: Array<Category> = null;
-  private readonly products: Array<Product> = null;
+  private readonly _categories: Array<Category> = null;
+  private readonly _products: Array<Product> = null;
 
   constructor(categoriesCount: number){
-    this.categories = generateCategories(categoriesCount);
-    this.products = generateProducts(this.categories);
+    this._categories = this.generateCategories(categoriesCount);
+    this._products = this.generateProducts(this._categories);
   }
   
   getCategories(): Array<Category>{
-    return this.categories;
+    return this._categories;
   }
 
   getProducts(category?: Category){
     
     if(category){
       let result: Array<Product> = new Array<Product>();
-      this.products.forEach((p) => {
+      this._products.forEach((p) => {
         if(p.categoryId === category.id){
           result.push(p);
         }
@@ -30,22 +30,26 @@ export class DataService {
       return result;
     }
     else{
-      return this.products;
+      return this._products;
     }
   }
 
+  getProduct(id: number): Product{
+    return this._products.find(p => p.id === id);
+  }
+
   addProduct(product: Product){
-    if(this.products.indexOf(product) <= 0){
-      this.products.push(product);
+    if(this._products.indexOf(product) <= 0){
+      this._products.push(product);
     }
   }
 
   deleteProduct(product: Product){
-    let index = this.products.indexOf(product);
+    let index = this._products.indexOf(product);
 
     if(index >= 0){
-      delete this.products[index];
-      this.products.splice(index, 1);
+      delete this._products[index];
+      this._products.splice(index, 1);
     }
   }
 
@@ -54,42 +58,49 @@ export class DataService {
       target[property] = newData[property];
     }
   }
-}
 
-function generateCategories(count: number): Array<Category>{
-  let result = new Array<Category>();
-  for(let i=0; i < count; i++){
-      let category = new Category(i, `Category-${i}`);
-      result.push(category);
-  }
-  return result;
-}
-
-function generateProducts(categories: Array<Category>) :Array<Product>{
-  let count = getRandomInt(10, 25);
-  let result = new Array<Product>();
-
-  for(let i=0; i < count; i++){
-      let category : Category = categories[getRandomInt(0, categories.length)];
-      let product = new Product();
-      product.categoryId = category.id;
-      product.title = `Product #${i}`
-      product.description = `Description for #${i}. Related to ${category.title}`;
-      product.price = getRandomArbitrary(10, 1000).toFixed(2);
-      product.image = `../assets/images/${category.title.toLowerCase()}.jpg`;
-
-      result.push(product);
+  getNewProductId(): number{
+    return Math.max(...this._products.map(p => p.id)) + 1;
   }
 
-  return result;
+  private generateCategories(count: number): Array<Category>{
+    let result = new Array<Category>();
+    for(let i=0; i < count; i++){
+        let category = new Category(i, `Category-${i}`);
+        result.push(category);
+    }
+    return result;
+  }
+  
+  private generateProducts(categories: Array<Category>) :Array<Product>{
+    let count = this.getRandomInt(10, 25);
+    let result = new Array<Product>();
+  
+    for(let i=0; i < count; i++){
+        let category : Category = categories[this.getRandomInt(0, categories.length)];
+        let product = new Product();
+        product.id = i;
+        product.categoryId = category.id;
+        product.title = `Product #${i}`
+        product.description = `Description for #${i}. Related to ${category.title}`;
+        product.price = this.getRandomArbitrary(10, 1000).toFixed(2);
+        product.image = `../assets/images/${category.title.toLowerCase()}.jpg`;
+  
+        result.push(product);
+    }
+  
+    return result;
+  }
+  
+  private getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+  
+  private getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
 
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}

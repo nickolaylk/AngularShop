@@ -5,7 +5,7 @@
     <option *ngFor="let c of categories" [ngValue] = "c">{{c?.title || locale.translate('all')}}</option>
   </select>
   <button class="btn btn-primary add-new-button" 
-          (click)="onModeSwitch(null)"
+          (click)="add()"
           *ngIf="user?.isAdmin">
           <i class="fa fa-plus" aria-hidden="true"></i>
   </button>
@@ -15,7 +15,10 @@
 <section class="products-list">
   <div class="product-container shadow-box" *ngFor="let p of products">
       <div class="product-controls" *ngIf="user?.isAdmin">
-          <button class="btn btn-default"><i class="fa fa-pencil"></i></button>
+          <button class="btn btn-default"
+            (click) = "edit(p)">
+            <i class="fa fa-pencil"></i>
+          </button>
           <button class="btn btn-default" 
                 appConfirmButton
                 promptText = "{{locale.translate('are you sure?')}}"
@@ -24,12 +27,6 @@
           </button>
     
         </div>
-      <app-product 
-      
-        [product] = p 
-        (onSelect) = onProductSelected(p)
-        (onEdit) = onProductEditCalled(p)>
-        
-      </app-product>
+      <app-product [product] = p ></app-product>
   </div>
 </section>

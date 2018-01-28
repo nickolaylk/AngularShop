@@ -3,6 +3,9 @@ import { Product } from '../../model/product';
 import { ShoppingCardService } from '../../common/services/shopping-card.service';
 import { UserService } from '../../common/services/user.service';
 import { ProductViewBase } from '../product-view-base';
+import { LocalizationService } from '../../common/services/localization.service';
+import { DataService } from '../../common/services/data.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -11,22 +14,22 @@ import { ProductViewBase } from '../product-view-base';
 })
 export class ProductComponent extends ProductViewBase {
 
-  @Output()
-  onSelect: EventEmitter<Product> = new EventEmitter<Product>();
-  @Output()
-  onEdit: EventEmitter<Product> = new EventEmitter<Product>();
-  @Output()
-  onDelete: EventEmitter<Product> = new EventEmitter<Product>();
-
-  select(){
-    this.onSelect.emit(this.product);
+  get product(): Product{
+    return this._product;
+  }
+  @Input()
+  set product(value: Product){
+    this._product = value;
   }
 
-  edit(){
-    this.onEdit.emit(this.product);
-  }
+  constructor(card: ShoppingCardService,
+    user: UserService,
+    locale: LocalizationService,
+    private dataService: DataService,
+    private route: ActivatedRoute,
+    private router: Router){super(card, locale, user);}
 
-  delete(){
-    this.onDelete.emit(this.product);
+  goToDetails(){
+    this.router.navigate(['/products/details', this._product.id ]);
   }
 }

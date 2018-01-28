@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy  } from '@angular/core';
 import { ProductBase } from '../product-base';
 import { Product } from '../../model/product';
 import { Category } from '../../model/category';
@@ -6,6 +6,8 @@ import { DataService } from '../../common/services/data.service';
 import { Input } from '@angular/core/src/metadata/directives';
 import { LocalizationService } from '../../common/services/localization.service';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-add-edit',
@@ -17,6 +19,10 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
   private _newProduct: Product;
   private _categories: Array<Category>;
   private _category: Category;
+  private _subscription: Subscription;
+
+  @Output()
+  productChanged: EventEmitter<Product> = new EventEmitter<Product>();
 
   public get categories():Array<Category>{
     return this._categories;
@@ -46,37 +52,52 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
   public get image(): string { return this._newProduct.image;}
   public set image(value: string){this._newProduct.image = value;}
 
-  @Output()
-  onClose: EventEmitter<Product> = new EventEmitter<Product>();
   
-
   constructor(private dataService: DataService,
               private location: Location,
+              private route: ActivatedRoute,
+              private router: Router,
               public locale: LocalizationService){super();}
   
   ngOnInit(){
-    
     this._categories = this.dataService.getCategories();
     this._newProduct = new Product();
-    if(this.product){
-      for(let property in this.product){
-        this[property] = this.product[property];
-      }
-      for(let c of this._categories){
-        if(this.categoryId === c.id){
-          this._category = c;
-          break;
+
+    this._subscription = this.route.paramMap.subscribe(
+      params => {
+        let id = params.get('id');
+        if(id){
+          this._product = this.dataService.getProduct(Number(id));
+          if(this._product){
+            for(let property in this._product){
+              this[property] = this._product[property];
+            }
+            for(let c of this._categories){
+              if(this.categoryId === c.id){
+                this._category = c;
+                break;
+              }
+            }
+          }
+          else{
+            this.router.navigate(['**']);
+          }
         }
-      }
-    }
-    else{
-      this.category = null;
-      this._newProduct.image = '../assets/images/no-image-slide.png';
-    }
+        else{
+          this._newProduct.id = this.dataService.getNewProductId();
+          this.category = null;
+          this._newProduct.image = '../assets/images/no-image-slide.png';
+        }
+
+      });
+    
+  }
+
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
   }
 
   close(){
-    //this.onClose.emit(this.product);
     this.location.back();
   }
 
@@ -85,8 +106,8 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
   }
  
   save(close: boolean = false){
-    if(this.product){
-      this.dataService.updateProduct(this.product, this._newProduct);
+    if(this._product){
+      this.dataService.updateProduct(this._product, this._newProduct);
     }
     else{
       this.dataService.addProduct(this._newProduct);

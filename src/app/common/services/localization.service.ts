@@ -72,7 +72,13 @@ function buildDictionaryEN() : KeyedCollection<string>{
   result.Add('close', 'Close');
   result.Add('add', 'Add');
   result.Add('remove', 'Remove');
-  result.Add('Are you sure ?', 'Are you sure ?');
+  result.Add('are you sure?', 'Are you sure ?');
+  result.Add('save', 'Save');
+  result.Add('reset', 'Reset');
+  result.Add('title', 'Title');
+  result.Add('price', 'Price');
+  result.Add('description', 'Description');
+
   
   return result;
 }
@@ -96,7 +102,12 @@ function buildDictionaryHE() : KeyedCollection<string>{
   result.Add('close', 'סגור');
   result.Add('add', 'הוסף');
   result.Add('remove', 'הוצא');
-  result.Add('Are you sure ?', 'אתה בטוח?');
+  result.Add('are you sure?', 'אתה בטוח?');
+  result.Add('save', 'שמור');
+  result.Add('reset', 'איפוס');
+  result.Add('title', 'כותרת');
+  result.Add('price', 'מחיר');
+  result.Add('description', 'תיאור');
 
   return result;
 }

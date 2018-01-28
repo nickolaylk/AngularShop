@@ -10,7 +10,7 @@ import { LocalizationService } from '../common/services/localization.service';
 export class ProductViewBase extends ProductBase{
 
   get inCard(): boolean{
-    return this.card.contains(this.product);
+    return this.card.contains(this._product);
   }
 
   constructor(protected card: ShoppingCardService,
@@ -18,11 +18,11 @@ export class ProductViewBase extends ProductBase{
               public user: UserService) { super();}
 
   addToCard(){
-    this.card.add(this.product);
+    this.card.add(this._product);
   }
 
   removeFromCard(){
-    this.card.delete(this.product);
+    this.card.delete(this._product);
   }
   
   

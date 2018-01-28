@@ -54,7 +54,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
       params => {
         let categoryId = params.get('categoryId');
         if(categoryId){
-          this._selectedCategory = this._categories.find(c => c.id == Number(categoryId));
+          this._selectedCategory = this._categories.find(c => c.id === Number(categoryId));
           this.selectedCategoryChanged.emit(this._selectedCategory);
           this.productsChanged.emit(this._products);
         }
@@ -68,9 +68,17 @@ export class ProductListComponent implements OnInit, OnDestroy{
     this._subscription.unsubscribe();
   }
     
-  delete(product){
+  delete(product: Product){
     this.dataService.deleteProduct(product);
     this._products = this.dataService.getProducts(this.selectedCategory);
     this.productsChanged.emit(this.products);
-  }  
+  }
+  
+  edit(product: Product){
+    this.router.navigate(['/products/edit', product.id ]);
+  }
+
+  add(){
+    this.router.navigate(['/products/add']);
+  }
 }
