@@ -11,7 +11,7 @@ export class AdminGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const canAccess = this.user.isAdmin;
     if (!canAccess) {
-      this.router.navigateByUrl('/');
+      this.router.navigate(['auth-required']);
     }
     return canAccess;
   }

@@ -24,6 +24,7 @@ import { ConfirmButtonDirective } from './common/directives/confirm-button.direc
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminGuard } from './admin.guard';
 import { CardAvailableGuard } from './card-available-guard';
+import { AuthorizationRequiredComponent } from './authorization-required/authorization-required.component';
 
 
 const dataServiceFactory = () => new DataService(5);
@@ -46,6 +47,7 @@ const routes: Routes = [
       { path: 'add', component: ProductAddEditComponent, canActivate: [AdminGuard] }
     ] },
   { path: 'card', component: CardComponent, canActivate: [CardAvailableGuard]  },
+  { path: 'auth-required', component: AuthorizationRequiredComponent },
   { path: '**', component: PageNotFoundComponent}
 ];
 
@@ -65,7 +67,8 @@ const routes: Routes = [
     ProductFullComponent,
     ProductAddEditComponent,
     ConfirmButtonDirective,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AuthorizationRequiredComponent
   ],
   imports: [
     BrowserModule,
