@@ -46,7 +46,8 @@ const routes: Routes = [
       { path: 'edit/:id', component: ProductAddEditComponent, canActivate: [AdminGuard] },
       { path: 'add', component: ProductAddEditComponent, canActivate: [AdminGuard] }
     ] },
-  { path: 'card', component: CardComponent, canActivate: [CardAvailableGuard]  },
+  { path: 'card', component: CardComponent, canActivate: [CardAvailableGuard]  },  
+  { path: 'auth', component: UserAreaComponent },
   { path: 'auth-required', component: AuthorizationRequiredComponent },
   { path: '**', component: PageNotFoundComponent}
 ];

@@ -1,4 +1,9 @@
-<app-user-area></app-user-area>
+<div *ngIf="user.loggedIn" style="text-align: center;">
+    <span>{{'welcome' | translate}} {{user.username}} !</span>
+    <br/>
+    <button (click)="logout()">{{'logout' | translate}}</button>
+</div>
+
 <div>
     
     <ul>
@@ -10,6 +15,13 @@
               <div class="cardCounter" *ngIf="p === 'card'">
                   <span>{{card.count}}</span>
               </div>
+            </a>
+        </li>
+        <li  *ngIf="!user.loggedIn">
+            <a routerLink = "/auth" 
+                routerLinkActive="active-link-class" 
+                [routerLinkActiveOptions]={exact:true}>
+              {{'login' | translate}}
             </a>
         </li>
         <li>

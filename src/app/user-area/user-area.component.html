@@ -1,9 +1,18 @@
-<div  *ngIf="loggedIn">
-  <span>{{'welcome' | translate}} {{username}} !</span>
-  <button (click)="logout()">{{'logout' | translate}}</button>
+<div class="fill" [dir]="locale.direction">
+  <div  *ngIf="loggedIn">
+    <h1>{{'welcome' | translate}} {{username}} !</h1>
+    <button (click)="logout()">{{'logout' | translate}}</button>
+  </div>
+  <div  *ngIf="!loggedIn">
+    <h1>{{'login' | translate}}</h1>
+    <form *ngIf="!loggedIn" (ngSubmit)="login()" #loginForm="ngForm">    
+        <span>{{'username' | translate}}</span>
+        <br/>
+        <input name="username" type="text" [(ngModel)]="usernameInput" required /><br/>
+        <span>{{'password'  | translate}}</span>
+        <br/>
+        <input name="pwd" type="password" [(ngModel)]="pwdInput" required /><br/>
+        <button [disabled]="!loginForm.form.valid">{{'login' | translate}}</button>
+    </form>  
+  </div>  
 </div>
-<form *ngIf="!loggedIn" (ngSubmit)="login()" #loginForm="ngForm">
-    {{'username' | translate}}: <input name="username" type="text" [(ngModel)]="usernameInput" required /><br/>
-    {{'password'  | translate}}: <input name="pwd" type="password" [(ngModel)]="pwdInput" required /><br/>
-    <button [disabled]="!loginForm.form.valid">{{'login' | translate}}</button>
-</form>

@@ -11,7 +11,7 @@ export class CardAvailableGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const canAccess = this.user.shoppingCardAvailable;
     if (!canAccess) {
-      this.router.navigateByUrl('/');
+      this.router.navigate(['auth'], { queryParams: { returnUrl: state.url }});
     }
     return canAccess;
   }

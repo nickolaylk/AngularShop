@@ -1,24 +1,29 @@
 import { Component, EventEmitter } from '@angular/core';
 import { LocalizationService } from '../common/services/localization.service';
 import { UserService } from '../common/services/user.service';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-user-area',
   templateUrl: './user-area.component.html',
   styleUrls: ['./user-area.component.css']
 })
-export class UserAreaComponent{
+export class UserAreaComponent implements OnInit{
+
+  private _returnUrl: string;
 
   get username(): string{
-    return this.auth.username;
+    return this.user.username;
   }
 
   get isAdmin(): boolean{
-    return this.auth.isAdmin;
+    return this.user.isAdmin;
   }
 
   get loggedIn(): boolean{
-    return this.auth.loggedIn;
+    return this.user.loggedIn;
   }
   
   usernameChanged = new EventEmitter<string>();
@@ -28,20 +33,28 @@ export class UserAreaComponent{
   public usernameInput: string;
   public pwdInput: string;
 
-  constructor(public locale: LocalizationService,
-              private auth: UserService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private location: Location,
+              private user: UserService,
+              public locale: LocalizationService) { }
 
+  ngOnInit() {
+      this._returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+  
   login(){
-    if(this.auth.login(this.usernameInput, this.pwdInput)){
+    if(this.user.login(this.usernameInput, this.pwdInput)){
       this.usernameChanged.emit(this.username);
       this.isAdminChanged.emit(this.isAdmin);
       this.loggedInChanged.emit(this.loggedIn);
+      this.router.navigateByUrl(this._returnUrl);
     }
     this.pwdInput = "";
   }
 
   logout(){
-    this.auth.logout();
+    this.user.logout();
     this.usernameChanged.emit(this.username);
     this.isAdminChanged.emit(this.isAdmin);
     this.loggedInChanged.emit(this.loggedIn);
