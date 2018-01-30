@@ -12,13 +12,13 @@
                 routerLinkActive="active-link-class" 
                 [routerLinkActiveOptions]={exact:true}>
               {{p | translate}}
-              <div class="cardCounter" *ngIf="p === 'card'">
-                  <span>{{card.count}}</span>
+              <div class="cartCounter" *ngIf="p === 'cart'">
+                  <span>{{user != null && user.cart != null ? user.cart.length : 0}}</span>
               </div>
             </a>
         </li>
         <li  *ngIf="!user.loggedIn">
-            <a routerLink = "/auth" 
+            <a routerLink = "/login" 
                 routerLinkActive="active-link-class" 
                 [routerLinkActiveOptions]={exact:true}>
               {{'login' | translate}}

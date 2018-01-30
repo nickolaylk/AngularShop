@@ -1,28 +1,36 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
-import { Product } from '../model/product';
-import { ShoppingCardService } from '../common/services/shopping-card.service';
-import { UserService } from '../common/services/user.service';
+
 import { ProductBase } from './product-base';
-import { DataService } from '../common/services/data.service';
-import { LocalizationService } from '../common/services/localization.service';
+import { LocalizationService } from '../core/localization.service';
+import { UserService } from '../core/user.service';
+
 
 @Component({})
 export class ProductViewBase extends ProductBase{
 
-  get inCard(): boolean{
-    return this.card.contains(this._product);
+  get inCart(): boolean{
+    return this._user.inCart(this._product);
   }
 
-  constructor(protected card: ShoppingCardService,
-              public locale: LocalizationService,
-              public user: UserService) { super();}
-
-  addToCard(){
-    this.card.add(this._product);
+  get editorEnabled():boolean{
+    return this._user.checkPermission('admin');
   }
 
-  removeFromCard(){
-    this.card.delete(this._product);
+  get cartEnabled():boolean{
+    return this._user.checkFeature('cart');
+  }
+
+  constructor(public locale: LocalizationService, protected _user: UserService)
+  {
+      super();
+  }
+
+  addToCart(){
+    this._user.addToCart(this._product);
+  }
+
+  removeFromCart(){
+    this._user.removeFromCart(this._product);
   }
   
   

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
-import { Product } from '../model/product';
-import { DataService } from '../common/services/data.service';
+import { Product } from '../core/model/product';
+
 
 @Component({})
 export class ProductBase {

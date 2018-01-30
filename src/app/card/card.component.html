@@ -1,9 +1,0 @@
-<div class='section-title'>
-    <span>{{'card' | translate}}</span>
-</div>
-
-<section class="products-list">
-    <div class="product-container shadow-box" *ngFor="let p of items">
-        <app-product [product] = p (onSelect) = onProductSelected(p)></app-product>
-    </div>
-</section>

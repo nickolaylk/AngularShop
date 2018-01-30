@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { LocalizationService } from '../common/services/localization.service';
-import { ShoppingCardService } from '../common/services/shopping-card.service';
-import { UserService } from '../common/services/user.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { LocalizationService } from '../core/localization.service';
+import { UserService } from '../core/user.service';
+
 
 @Component({
   selector: 'app-nav-pane',
@@ -14,10 +13,7 @@ export class NavPaneComponent {
   @Input()
   sections: Array<string>;
   
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              public locale: LocalizationService, 
-              public card: ShoppingCardService,
+  constructor(public locale: LocalizationService, 
               public user: UserService){
   }
 

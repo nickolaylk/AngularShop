@@ -1,12 +1,15 @@
 import { Component, OnInit, Input, Output, OnDestroy, EventEmitter } from '@angular/core';
-import { Product } from '../../model/product';
-import { DataService } from '../../common/services/data.service';
-import { Category } from '../../model/category';
-import { ShoppingCardService } from '../../common/services/shopping-card.service';
-import { UserService } from '../../common/services/user.service';
-import { LocalizationService } from '../../common/services/localization.service';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { Category } from '../../core/model/category';
+import { ProductsService } from '../products.service';
+import { LocalizationService } from '../../core/localization.service';
+import { UserService } from '../../core/user.service';
+import { Product } from '../../core/model/product';
+import { SharedRoutingService } from '../../core/shared-routing.service';
+import { Scope } from '../../core/scope.enum';
+import { ScopePage } from '../../core/scope-page.enum';
 
 @Component({
   selector: 'app-product-list',
@@ -15,51 +18,50 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ProductListComponent implements OnInit, OnDestroy{
 
-  private _products: Array<Product> = null;
-  private _categories: Array<Category> = null;
   private _selectedCategory: Category = null;
   private _subscription: Subscription;
 
   get categories(): Array<Category>{
-    return [null, ...this._categories];
+    return [null, ...this._data.categories];
   }
   get selectedCategory(): Category{
     return this._selectedCategory;
   }
   set selectedCategory(value: Category) {
     if(value){
-      this.router.navigate(['products/list', value.id ]);
+      this._router.navigate(['products/list', value.id ]);
     }
     else{
-      this.router.navigate(['products/list']);
+      this._router.navigate(['products/list']);
     }
   }
   get products(): Array<Product>{
-    return this._products;
+    return this._data.products;
   }
 
   productsChanged = new EventEmitter<Array<Product>>();
   selectedCategoryChanged = new EventEmitter<Category>();
 
-  constructor(private dataService: DataService,
-              private card: ShoppingCardService,
-              private route: ActivatedRoute,
-              private router: Router,
+  constructor(private _data: ProductsService,
+              private _route: ActivatedRoute,
+              private _router: Router,
+              private _sharedRouting: SharedRoutingService,
               public locale: LocalizationService,
               public user: UserService) { }
 
   ngOnInit(): void {
-    this._categories = this.dataService.getCategories();
-    this._subscription = this.route.paramMap.subscribe(
+    
+    this._subscription = this._route.paramMap.subscribe(
       params => {
         let categoryId = params.get('categoryId');
         if(categoryId){
-          this._selectedCategory = this._categories.find(c => c.id === Number(categoryId));
+          this._selectedCategory = this._data.categories.find(c => c.id === Number(categoryId));
           this.selectedCategoryChanged.emit(this._selectedCategory);
-          this.productsChanged.emit(this._products);
         }
     
-        this._products = this.dataService.getProducts(this._selectedCategory);
+        this._data.loadProducts(this._selectedCategory);
+        this.productsChanged.emit(this.products);
+        
       });
 
   }
@@ -69,16 +71,18 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
     
   delete(product: Product){
-    this.dataService.deleteProduct(product);
-    this._products = this.dataService.getProducts(this.selectedCategory);
+    this._data.deleteProduct(product);
+    this._data.loadProducts(this.selectedCategory);
     this.productsChanged.emit(this.products);
   }
   
   edit(product: Product){
-    this.router.navigate(['/products/edit', product.id ]);
+    //this.router.navigate(['/products/edit', product.id ]);
+    this._sharedRouting.navigate(Scope.products, ScopePage.editor, product.id.toString());
   }
 
   add(){
-    this.router.navigate(['/products/add']);
+    //this.router.navigate(['/products/add']);
+    this._sharedRouting.navigate(Scope.products, ScopePage.add);
   }
 }

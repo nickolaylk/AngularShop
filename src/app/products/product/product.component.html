@@ -12,14 +12,14 @@
   </button>
   
   <button class="btn btn-warning" 
-          *ngIf="inCard && user.loggedIn && user.shoppingCardAvailable" 
-          (click)="removeFromCard()">
+          *ngIf="inCart && cartEnabled" 
+          (click)="removeFromCart()">
           <i class="fa fa-shopping-cart"></i> {{'remove' | translate}}
   </button>
   
   <button class="btn btn-success" 
-          *ngIf="!inCard  && user.loggedIn && user.shoppingCardAvailable" 
-          (click)="addToCard()">
+          *ngIf="!inCart  && cartEnabled" 
+          (click)="addToCart()">
           <i class="fa fa-shopping-cart"></i> {{'add' | translate}}
   </button>
 

@@ -2,7 +2,7 @@ a{
     text-transform: capitalize;
 }
 
-.cardCounter{
+.cartCounter{
     margin-left: 25px;
     background-color: lightcoral; 
     color: white; 
@@ -14,7 +14,7 @@ a{
     width: 20px;
 }
 
-.cardCounter span{
+.cartCounter span{
     align-self: center; 
     width:100%; 
     text-align: center;
