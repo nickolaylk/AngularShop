@@ -82,7 +82,8 @@ function buildDictionaryEN() : KeyedCollection<string>{
   result.Add('page not found', 'Page not found!');
   result.Add('authorization required', 'Authorization required!');
   result.Add('login as authorized user', 'Please, login as authorized user');
-
+  result.Add('products count', 'Products count');
+  result.Add('products sum', 'For amount');
   
   return result;
 }
@@ -113,6 +114,8 @@ function buildDictionaryHE() : KeyedCollection<string>{
   result.Add('price', 'מחיר');
   result.Add('description', 'תיאור');
   result.Add('page not found', 'עמוד לא קיים');
+  result.Add('products count', 'כמות מוצרים');
+  result.Add('products sum', 'לתשלום');
   result.Add('authorization required', 'Authorization required!');
   result.Add('login as authorized user', 'Please, login as authorized user');
 

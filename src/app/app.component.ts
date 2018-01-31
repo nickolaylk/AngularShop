@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from './core/user.service';
 
 @Component({
   selector: 'app-root',
@@ -15,25 +16,24 @@ export class AppComponent {
 
   routes: Array<string> = this._baseFeatures;
   
-  constructor(private router: Router, 
-              private route: ActivatedRoute){
+  constructor(private _user: UserService,
+              private _router: Router, 
+              private _route: ActivatedRoute){
     
     this.setRoutes();
-    /*
+    
     this._user.loggedInChanged.subscribe(() => {
       this.setRoutes();
     });
-    */
+    
   }
 
   private setRoutes(){
-    /*
-    if(this._user.checkPermission('cart')){
-      this.routes = [...this._baseRoutes, 'cart'];
+    if(this._user.checkFeature('cart')){
+      this.routes = [...this._baseFeatures, 'cart'];
     } 
     else{
-      this.routes = this._baseRoutes;
+      this.routes = this._baseFeatures;
     }
-    */
   }
 }

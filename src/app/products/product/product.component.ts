@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter} from '@angular/core';
 import { ProductViewBase } from '../product-view-base';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../core/model/product';
 import { UserService } from '../../core/user.service';
 import { LocalizationService } from '../../core/localization.service';
@@ -27,15 +26,12 @@ export class ProductComponent extends ProductViewBase {
 
   constructor(user: UserService, locale: LocalizationService,
         private _data: ProductsService,
-        private _sharedRouting: SharedRoutingService,
-        private _route: ActivatedRoute,
-        private _router: Router)
+        private _sharedRouting: SharedRoutingService)
   {
     super(locale, user);
   }
 
   goToDetails(){
-    //this._router.navigate(['/products/details', this._product.id ]);
     this._sharedRouting.navigate(Scope.products, ScopePage.details, this._product.id.toString());
   }
 }

@@ -104,7 +104,7 @@ export class UserService {
   }
 
   inCart(product: Product){
-    return this._currentUser.cart.indexOf(product) >= 0;
+    return this._currentUser ? this._currentUser.cart.indexOf(product) >= 0 : false;
   }
 
 }

@@ -6,7 +6,7 @@
   </select>
   <button class="btn btn-primary add-new-button" 
           (click)="add()"
-          *ngIf="user?.isAdmin">
+          *ngIf="editorEnabled">
           <i class="fa fa-plus" aria-hidden="true"></i>
   </button>
 
@@ -14,7 +14,7 @@
 
 <section class="products-list">
   <div class="product-container shadow-box" *ngFor="let p of products">
-      <div class="product-controls" *ngIf="user?.isAdmin">
+      <div class="product-controls" *ngIf="editorEnabled">
           <button class="btn btn-default"
             (click) = "edit(p)">
             <i class="fa fa-pencil"></i>

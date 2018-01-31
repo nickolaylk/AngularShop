@@ -1,0 +1,31 @@
+<div class="fill" [dir]="locale.direction">
+    <div class='section-title'>
+        <span>{{'cart' | translate}}</span>
+    </div>
+
+    <section>
+        <span>{{'products count' | translate}}: {{count}}</span>
+        <br/>
+        <span>{{'products sum' | translate}}: {{sum | currency}}</span>
+        
+        <div class="row" *ngFor="let p of products">
+            <div class="col-md-2 cart-product-image">
+                    <img [src]="p.image">
+            </div>
+            <div class="col-md-4">
+                <span>{{p.title}}</span>
+            </div>
+            <div class="col-md-4">
+                <span>{{p.price | currency}}</span>
+            </div>
+            <div class="col-md-2">
+                    <button class="btn btn-warning" 
+                        (click)="remove(p)">
+                        <i class="fa fa-shopping-cart"></i> 
+                            {{'remove' | translate}}
+                    </button>
+            </div>
+        </div>
+        
+    </section>
+</div>

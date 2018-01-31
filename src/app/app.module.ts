@@ -14,6 +14,8 @@ import { AuthorizationRequiredComponent } from './authorization-required.compone
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
+import { ProductsModule } from './products/products.module';
+import { CartModule } from './cart/cart.module';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -40,6 +42,8 @@ const routes: Routes = [
     CoreModule,
     SharedModule,
     LoginModule,
+    ProductsModule,
+    CartModule,
     RouterModule.forRoot(routes, { useHash: false })
   ],
   

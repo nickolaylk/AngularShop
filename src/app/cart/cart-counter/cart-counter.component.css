@@ -1,0 +1,17 @@
+.cartCounter{
+    margin-left: 25px;
+    background-color: lightcoral; 
+    color: white; 
+    font-weight: bold;
+    border-radius: 25px;
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+    width: 20px;
+}
+
+.cartCounter span{
+    align-self: center; 
+    width:100%; 
+    text-align: center;
+}

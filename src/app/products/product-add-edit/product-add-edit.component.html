@@ -1,0 +1,53 @@
+<form class="fill" #editorForm="ngForm" [dir]="locale.direction">
+  <img [src]="image" style="height: 250px;">
+  <br>
+  <div class="input-group">
+    <span class="input-group-addon">{{'category' | translate}}</span>
+    <select class="form-control" [(ngModel)]="category" 
+            name="category" #categoryInput="ngModel" reguired>
+      <option *ngFor="let c of categories" [ngValue] = "c">{{c.title}}</option>
+    </select>
+    <span class="error-text" *ngIf="!(categoryInput.valid || categoryInput.pristine)">Category is required</span>
+  </div>
+
+  <div class="input-group">
+    <span class="input-group-addon">{{'title' | translate}}</span>
+    <input class="form-control" name="title" type="text" 
+          [(ngModel)]="title" 
+          #titleInput="ngModel" required />
+    <span class="error-text" *ngIf="!(titleInput.valid || titleInput.pristine)">Title is required</span>
+
+  </div>
+
+  <div class="input-group">
+    <span class="input-group-addon">{{'price' | translate}}</span>
+    <input class="form-control" name="price" type="number" 
+        [(ngModel)]="price" #priceInput="ngModel" required />
+    <span class="error-text" *ngIf="!(priceInput.valid || priceInput.pristine)">Price is required</span>
+
+  </div>
+
+  <div class="input-group">
+    <span class="input-group-addon">{{'description' | translate}}</span>
+    <textarea class="form-control" name="description" type="text" 
+          [(ngModel)]="description" #descriptionInput="ngModel" required ></textarea>
+    <span class="error-text" *ngIf="!(descriptionInput.valid || descriptionInput.pristine)">Description is required</span>
+
+  </div>
+
+  <button class="btn btn-primary" 
+        [disabled]="!editorForm.form.valid"
+        (click)="save(true)">
+      {{'save' | translate}}
+  </button>
+
+  <button class="btn btn-primary" 
+        (click)="reset()">
+      {{'reset' | translate}}
+  </button>
+
+  <button class="btn btn-primary" 
+        (click)="close()">
+      {{'close' | translate}}
+  </button>
+</form>

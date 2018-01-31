@@ -1,0 +1,22 @@
+.cart-product-image{
+    height: 75px;
+    margin-top: 3px;
+    margin-right: 0px;
+    margin-left: 0px;
+    min-height: 75px;
+    max-height: 75px;
+    text-align:center;
+    
+    align-items: center;
+    justify-content: center;
+  }
+.cart-product-image img{
+    max-height: 100%;
+    max-width: 100%;
+    display:inline-block;
+    text-align: center;
+  }
+
+.cart-product-image{
+    height: 75px;
+}

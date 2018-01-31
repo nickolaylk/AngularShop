@@ -80,7 +80,7 @@ export class DataService {
         product.categoryId = category.id;
         product.title = `Product #${i}`
         product.description = `Description for #${i}. Related to ${category.title}`;
-        product.price = this.getRandomArbitrary(10, 1000).toFixed(2);
+        product.price = Number(this.getRandomArbitrary(10, 1000).toFixed(2));
         product.image = `../assets/images/${category.title.toLowerCase()}.jpg`;
   
         result.push(product);
@@ -89,13 +89,13 @@ export class DataService {
     return result;
   }
 
-  private getRandomInt(min, max) {
+  private getRandomInt(min, max): number {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
   
-  private getRandomArbitrary(min, max) {
+  private getRandomArbitrary(min, max): number {
     return Math.random() * (max - min) + min;
   }
 }

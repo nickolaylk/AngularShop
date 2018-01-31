@@ -39,6 +39,10 @@ export class ProductListComponent implements OnInit, OnDestroy{
     return this._data.products;
   }
 
+  get editorEnabled():boolean{
+    return this.user.checkPermission('admin');
+  }
+
   productsChanged = new EventEmitter<Array<Product>>();
   selectedCategoryChanged = new EventEmitter<Category>();
 

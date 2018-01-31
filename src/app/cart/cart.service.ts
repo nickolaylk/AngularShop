@@ -12,11 +12,11 @@ export class CartService {
   countChanged = new EventEmitter<number>();
   itemsChanged = new EventEmitter<Array<Product>>();
 
-  get count(){
+  get count(): number{
     return this._user.cart.length;
   }
 
-  get sum(){
+  get sum(): number{
     return this._sum;
   }
 
@@ -29,7 +29,9 @@ export class CartService {
     this._user.cartChanged.subscribe(count =>  
         {
             this._sum = 0;
-            this._user.cart.forEach((p)=>{this._sum += p.price});
+            this._user.cart.forEach((p)=>{
+              this._sum += p.price
+            });
             this.countChanged.emit(count);
             this.sumChanged.emit(this._sum);
             this.countChanged.emit(this.count);

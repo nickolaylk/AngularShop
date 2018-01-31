@@ -12,9 +12,7 @@
                 routerLinkActive="active-link-class" 
                 [routerLinkActiveOptions]={exact:true}>
               {{p | translate}}
-              <div class="cartCounter" *ngIf="p === 'cart'">
-                  <span>{{user != null && user.cart != null ? user.cart.length : 0}}</span>
-              </div>
+              <app-cart-counter *ngIf="p === 'cart'"></app-cart-counter>
             </a>
         </li>
         <li  *ngIf="!user.loggedIn">
