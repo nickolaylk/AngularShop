@@ -7,6 +7,7 @@ import { Product } from '../../core/model/product';
 import { Category } from '../../core/model/category';
 import { LocalizationService } from '../../core/localization.service';
 import { ProductsService } from '../products.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
   @Output()
   productChanged: EventEmitter<Product> = new EventEmitter<Product>();
 
-  public get categories():Array<Category>{
+  public get categories():Observable<Category[]>{
     return this._data.categories;
   }
 
@@ -69,16 +70,7 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
       params => {
         let id = params.get('id');
         if(id){
-          this._product = this._data.getProduct(Number(id));
-          if(this._product){
-            for(let property in this._product){
-              this[property] = this._product[property];
-            }
-            this._category = this.categories.find(c => c.id === this.categoryId);
-          }
-          else{
-            this._router.navigate(['**']);
-          }
+          this.loadProduct(Number.parseInt(id));
         }
         else{
           this.category = null;
@@ -87,6 +79,25 @@ export class ProductAddEditComponent extends ProductBase implements OnInit{
 
       });
     
+  }
+
+  loadProduct(id: number){
+    this._data.getProduct(id)
+    .then(p =>{
+      this._product = p;
+      if(this._product){
+        for(let property in this._product){
+          this[property] = this._product[property];
+        }
+        this.categories.forEach(c => {
+          this._category = c.find(c => c.id === this.categoryId);
+        })
+         
+      }
+      else{
+        this._router.navigate(['**']);
+      }
+    });
   }
 
   ngOnDestroy() {

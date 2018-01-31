@@ -5,19 +5,25 @@ import { DataService } from './data.service';
 import { CartAvailableGuard } from './cart-available-guard';
 import { LocalizationService } from './localization.service';
 import { SharedRoutingService } from './shared-routing.service';
+import { NotificationService } from './notification.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpCorrelationInterceptor } from './http-correlation-interceptor';
+import { ApiService } from './api.service';
 
 const dataServiceFactory = () => new DataService(5);
 const localeServiceFactory = () => new LocalizationService('en');
-
 
 @NgModule({
     providers: [
         {provide: LocalizationService, useFactory: localeServiceFactory},
         {provide: DataService, useFactory: dataServiceFactory},
+        ApiService,
         UserService, 
         SharedRoutingService,
+        NotificationService,
         AdminGuard,
-        CartAvailableGuard
+        CartAvailableGuard,
+        { provide: HTTP_INTERCEPTORS, useClass: HttpCorrelationInterceptor, multi: true }
     ],
 })
 export class CoreModule {

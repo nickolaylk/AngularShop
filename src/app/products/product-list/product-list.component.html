@@ -2,7 +2,9 @@
     
   <span>{{'products' | translate}}</span>
   <select [(ngModel)]="selectedCategory" name="selectedCategory">
-    <option *ngFor="let c of categories" [ngValue] = "c">{{c?.title || locale.translate('all')}}</option>
+    <option *ngFor="let c of categories | async"
+      [ngValue] = "c">
+      {{c?.title || locale.translate('all')}}</option>
   </select>
   <button class="btn btn-primary add-new-button" 
           (click)="add()"
@@ -13,7 +15,9 @@
 </div>
 
 <section class="products-list">
-  <div class="product-container shadow-box" *ngFor="let p of products">
+    <span>{{(products | async)?.lenght}}</span>
+  <div class="product-container shadow-box" 
+    *ngFor="let p of products | async">
       <div class="product-controls" *ngIf="editorEnabled">
           <button class="btn btn-default"
             (click) = "edit(p)">

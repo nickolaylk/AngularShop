@@ -10,6 +10,10 @@ import { Product } from '../../core/model/product';
 import { SharedRoutingService } from '../../core/shared-routing.service';
 import { Scope } from '../../core/scope.enum';
 import { ScopePage } from '../../core/scope-page.enum';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { filter, map, take, first, } from 'rxjs/operators';
+import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-product-list',
@@ -18,15 +22,20 @@ import { ScopePage } from '../../core/scope-page.enum';
 })
 export class ProductListComponent implements OnInit, OnDestroy{
 
+  private _categories: Observable<Category[]>;
   private _selectedCategory: Category = null;
+  private _products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   private _subscription: Subscription;
+  
 
-  get categories(): Array<Category>{
-    return [null, ...this._data.categories];
+  get categories(): Observable<Category[]>{
+    return this._categories;
   }
+
   get selectedCategory(): Category{
     return this._selectedCategory;
   }
+
   set selectedCategory(value: Category) {
     if(value){
       this._router.navigate(['products/list', value.id ]);
@@ -35,15 +44,15 @@ export class ProductListComponent implements OnInit, OnDestroy{
       this._router.navigate(['products/list']);
     }
   }
-  get products(): Array<Product>{
-    return this._data.products;
+  get products(): Observable<Product[]>{
+    return this._products.asObservable();
   }
 
   get editorEnabled():boolean{
     return this.user.checkPermission('admin');
   }
 
-  productsChanged = new EventEmitter<Array<Product>>();
+  productsChanged = new EventEmitter<Observable<Product[]>>();
   selectedCategoryChanged = new EventEmitter<Category>();
 
   constructor(private _data: ProductsService,
@@ -55,17 +64,18 @@ export class ProductListComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     
+    this._categories = this._data.categories;
+
     this._subscription = this._route.paramMap.subscribe(
       params => {
         let categoryId = params.get('categoryId');
         if(categoryId){
-          this._selectedCategory = this._data.categories.find(c => c.id === Number(categoryId));
-          this.selectedCategoryChanged.emit(this._selectedCategory);
+          this.setSelectedCategory(Number.parseInt(categoryId));
         }
-    
-        this._data.loadProducts(this._selectedCategory);
-        this.productsChanged.emit(this.products);
-        
+        else{
+          this._selectedCategory = null;
+          this.loadProducts();
+        }
       });
 
   }
@@ -73,10 +83,52 @@ export class ProductListComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     this._subscription.unsubscribe();
   }
-    
+
+  setSelectedCategory(id: number){    
+    this._categories.pipe(
+        filter(c => c.length > 0),
+        map(c => c.find(c => c.id === id)),
+        take(1)
+      ).toPromise()
+      .then(c => {
+        if(c == null){
+          throw new Error(`Caregory ${id} not found`);
+        }
+        this._selectedCategory = c;
+      })
+      .catch(error => {
+        this._router.navigate(['**']);
+        console.log(error);
+      });
+    /*
+    this._data.getCategory(id)
+    .then(c => {
+      this._selectedCategory = c;
+      this.selectedCategoryChanged.emit(this._selectedCategory);
+      this.loadProducts();
+    })
+    .catch(error => {
+      console.log(error);
+    });
+    */
+  }
+  
+  private loadProducts(){
+    this._data.getProducts(this._selectedCategory == null ? null : this._selectedCategory.id)
+      .then(o => {
+        console.log(`fetched ${o.length} products`);
+        this._products.next(o);
+        //this.productsChanged.emit(this.products);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      
+  }
+  
   delete(product: Product){
     this._data.deleteProduct(product);
-    this._data.loadProducts(this.selectedCategory);
+    this.loadProducts();
     this.productsChanged.emit(this.products);
   }
   
@@ -88,5 +140,13 @@ export class ProductListComponent implements OnInit, OnDestroy{
   add(){
     //this.router.navigate(['/products/add']);
     this._sharedRouting.navigate(Scope.products, ScopePage.add);
+  }
+
+  categoryTrack(index: number, category: Category){
+    return category == null ? -1 : category.id;
+  }
+
+  productTrack(index: number, product: Product){
+    return product.id;
   }
 }

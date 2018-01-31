@@ -10,6 +10,8 @@ import { ProductsService } from '../products.service';
 import { SharedRoutingService } from '../../core/shared-routing.service';
 import { ScopePage } from '../../core/scope-page.enum';
 import { Scope } from '../../core/scope.enum';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
 
@@ -23,8 +25,8 @@ export class ProductFullComponent extends ProductViewBase
                                   implements OnInit, OnDestroy{ 
   private _subscription: Subscription;
 
-  get product(): Product{
-    return this._product;
+  get product(): Observable<Product>{
+    return new BehaviorSubject(this._product).asObservable();
   }
   
   @Output()
@@ -47,10 +49,7 @@ export class ProductFullComponent extends ProductViewBase
       params => {
         let id = params.get('id');
         if(id){
-          this._product = this._data.getProduct(Number(id));
-        }
-        if(this._product){
-          this.productChanged.emit(this._product);
+          this.loadProduct(Number.parseInt(id));
         }
         else{
           this._router.navigate(['**']);
@@ -61,6 +60,19 @@ export class ProductFullComponent extends ProductViewBase
 
   ngOnDestroy() {
     this._subscription.unsubscribe();
+  }
+
+  loadProduct(id: number){
+    this._data.getProduct(id)
+    .then(p =>{
+      this._product = p;
+      if(this._product){
+        this.productChanged.emit(this._product);
+      }
+      else{
+        this._router.navigate(['**']);
+      }
+    });
   }
 
   close(){

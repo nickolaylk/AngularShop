@@ -1,9 +1,9 @@
 <div class="fill" [dir]="locale.direction">
    
-  <img [src]="product.image" style="height: 250px;">
-  <h5>{{product.title}}</h5>
-  <span>{{product.description}}</span>
-  <h5>{{product.price | currency}}</h5>
+  <img [src]="(product | async)?.image" style="height: 250px;">
+  <h5>{{(product | async)?.title}}</h5>
+  <span>{{(product| async)?.description}}</span>
+  <h5>{{(product| async)?.price | currency}}</h5>
   
   <br/>
 

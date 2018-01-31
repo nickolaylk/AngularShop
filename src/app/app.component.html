@@ -1,10 +1,10 @@
 
-<div class="header">
+
+<header class="header">
     <img [src]="logoImageUri"/>
     <h1>{{'angularshop' | translate}}</h1>
-</div>
+</header>
 <div class="wrapper">
-    
     <div class="nav-bar">
         <app-nav-pane [sections] = routes></app-nav-pane>
     </div>
@@ -12,5 +12,7 @@
     <div class="section shadow-box" main-area>
         <router-outlet></router-outlet>
     </div>
-  
 </div>
+<footer class="notification">
+    <app-notification></app-notification>
+</footer>
