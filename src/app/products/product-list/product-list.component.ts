@@ -100,17 +100,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
         this._router.navigate(['**']);
         console.log(error);
       });
-    /*
-    this._data.getCategory(id)
-    .then(c => {
-      this._selectedCategory = c;
-      this.selectedCategoryChanged.emit(this._selectedCategory);
-      this.loadProducts();
-    })
-    .catch(error => {
-      console.log(error);
-    });
-    */
   }
   
   private loadProducts(){

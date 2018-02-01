@@ -10,13 +10,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpCorrelationInterceptor } from './http-correlation-interceptor';
 import { ApiService } from './api.service';
 
-const dataServiceFactory = () => new DataService(5);
+//const dataServiceFactory = () => new DataService(5);
 const localeServiceFactory = () => new LocalizationService('en');
 
 @NgModule({
     providers: [
         {provide: LocalizationService, useFactory: localeServiceFactory},
-        {provide: DataService, useFactory: dataServiceFactory},
+        //{provide: DataService, useFactory: dataServiceFactory},
         ApiService,
         UserService, 
         SharedRoutingService,
