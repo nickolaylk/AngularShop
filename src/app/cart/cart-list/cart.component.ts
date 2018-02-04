@@ -2,6 +2,7 @@ import { Component, EventEmitter } from '@angular/core';
 import { Product } from '../../core/model/product';
 import { CartService } from '../cart.service';
 import { LocalizationService } from '../../core/localization.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { LocalizationService } from '../../core/localization.service';
 })
 export class CartComponent {
 
-  get products(): Array<Product>{
+  get products(): Observable<Product[]>{
     return this._cart.products;
   }
 

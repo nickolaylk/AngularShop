@@ -23,9 +23,9 @@
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    height: calc(100% - 173px);
-    min-height: calc(100% - 173px);
-    max-height: calc(100% - 173px);
+    height: calc(100% - 150px);
+    min-height: calc(100% - 150px);
+    max-height: calc(100% - 150px);
     margin: 0;
 }
 

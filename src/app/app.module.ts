@@ -18,7 +18,6 @@ import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
 import { ProductsModule } from './products/products.module';
 import { CartModule } from './cart/cart.module';
-import { NotificationComponent } from './notification.component';
 
 
 const routes: Routes = [
@@ -37,7 +36,6 @@ const routes: Routes = [
     AboutComponent,
     ContactComponent,
     NavPaneComponent,
-    NotificationComponent,
     PageNotFoundComponent,
     AuthorizationRequiredComponent
   ],

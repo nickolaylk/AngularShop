@@ -27,13 +27,14 @@ export class ProductsService {
 
     constructor(private _dataApi: ApiService,
                 private _user: UserService,
-                private _notificationService: NotificationService) {
+                private _notifications: NotificationService) {
         
         this.loadCategories();
-        this.loadProducts();        
+        this.loadProducts();
     }
 
     getCategory(id: number): Promise<Category>{
+        this._notifications.notify(`ProductsService: get category id:${id}`);
         return this._categories
         .pipe(
             filter(o => o.length > 0),
@@ -43,20 +44,8 @@ export class ProductsService {
         .toPromise();
     }
 
-    getProducts(categoryId?: number): Promise<Product[]>{
-        return this._products
-        .pipe(
-            filter(o => o.length > 0),
-            map(o=>{
-                let result = o.filter(p => categoryId == null ? true : p.categoryId === categoryId);
-                return result;
-            })
-            
-        )
-        .toPromise();
-    }
-
     getProduct(id: number): Promise<Product>{
+        this._notifications.notify(`ProductsService: get product id:${id}`);
         return this._products
         .pipe(
             filter(o => o.length > 0),
@@ -67,32 +56,34 @@ export class ProductsService {
     }
 
     addProduct(product: Product){
+        this._notifications.notify(`ProductsService: add product ${product ? product.title : 'n/a'}`);
         return this._dataApi.saveProduct(product)
             .then(savedProduct => {
                 this._products.value.push(savedProduct);
                 this.productsChanged.emit(this.products);
             })
             .catch(error => {
-                this._notificationService.notify(error);
+                this._notifications.notify(`ProductsService: error at adding product: ${error}`);
             });
     }
 
     updateProduct(target: Product, newData: Product){
+        this._notifications.notify(`ProductsService: update product id:${target ? target.id : 'n/a'}`);
         return this._dataApi.saveProduct(newData)
             .then(savedProduct => {
                 
                 for(let property in savedProduct){
                     target[property] = savedProduct[property];
                 }
-
                 this.productsChanged.emit(this.products);
             })
             .catch(error => {
-                this._notificationService.notify(error);
+                this._notifications.notify(`ProductsService: error at updating product: ${error}`);
             });
     }
 
     deleteProduct(product: Product){
+        this._notifications.notify(`ProductsService: delete product id:${product ? product.id : 'n/a'}`);
         return this._dataApi.deleteProduct(product)
             .then(deletedProduct => {
                 let index = this._products.value.indexOf(product);
@@ -104,7 +95,7 @@ export class ProductsService {
                 this.productsChanged.emit(this.products);
             })
             .catch(error => {
-                this._notificationService.notify(error);
+                this._notifications.notify(`ProductsService: error at deleting product: ${error}`);
             });
     }
 
@@ -115,7 +106,7 @@ export class ProductsService {
                 this.categoriesChanged.emit(this.categories);
             })
             .catch(error => {
-                this._notificationService.notify(error);
+                this._notifications.notify(`ProductsService: error at loading categories: ${error}`);
             });
     }
 
@@ -126,7 +117,7 @@ export class ProductsService {
                 this.productsChanged.emit(this.products);
             })
             .catch(error => {
-                this._notificationService.notify(error);
+                this._notifications.notify(`ProductsService: error at loading products: ${error}`);
             });
     }
 }

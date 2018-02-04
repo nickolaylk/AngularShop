@@ -2,6 +2,7 @@
     
   <span>{{'products' | translate}}</span>
   <select [(ngModel)]="selectedCategory" name="selectedCategory">
+      <option [ngValue] = "null">{{locale.translate('all')}}</option>
     <option *ngFor="let c of categories | async"
       [ngValue] = "c">
       {{c?.title || locale.translate('all')}}</option>
@@ -15,7 +16,6 @@
 </div>
 
 <section class="products-list">
-    <span>{{(products | async)?.lenght}}</span>
   <div class="product-container shadow-box" 
     *ngFor="let p of products | async">
       <div class="product-controls" *ngIf="editorEnabled">

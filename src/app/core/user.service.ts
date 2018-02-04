@@ -1,6 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { User } from './model/user';
 import { Product } from './model/product';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { NotificationService } from './notification.service';
 
 @Injectable()
 export class UserService {
@@ -19,7 +22,7 @@ export class UserService {
     return this._currentUser ? this._currentUser.permissions: [];
   }
 
-  get cart(): Product[]{
+  get cart(): BehaviorSubject<Product[]>{
     return this._currentUser ? this._currentUser.cart : null;
   }
 
@@ -29,20 +32,20 @@ export class UserService {
 
   usernameChanged = new EventEmitter<string>();
   loggedInChanged = new EventEmitter<boolean>();
-  cartChanged = new EventEmitter<Product[]>();
   featuresChanged = new EventEmitter<string[]>();
   permissionsChanged = new EventEmitter<string[]>();
 
-  constructor() { 
+  constructor(private _notifications: NotificationService) { 
     this._currentUser = null;
   }
 
   login(username: string, pwd: string): boolean{
+    this._notifications.notify(`Try to log in ${username}`);
     
     if(username + username.length == pwd){
       this._currentUser = new User();
       this._currentUser.username = username;
-      this._currentUser.cart = [];
+      this._currentUser.cart = new BehaviorSubject<Product[]>([]);
       switch(this._currentUser.username){
         case('dev'):{
           this._currentUser.features = ['cart'];
@@ -65,16 +68,18 @@ export class UserService {
       this.loggedInChanged.emit(this.loggedIn);
       this.permissionsChanged.emit(this.permissions);
       this.featuresChanged.emit(this.features);
-      this.cartChanged.emit(this.cart);
       
+      this._notifications.notify(`${username} logged in`);
       return true;
     }
     else{
+      this._notifications.notify(`${username} is not authorized user`);
       return false;
     }
   }
 
   logout(){
+    this._notifications.notify(`${this._currentUser ? this._currentUser.username : ''} logging out`);
     this._currentUser = null;
     this.usernameChanged.emit(this.username);
     this.loggedInChanged.emit(this.loggedIn);
@@ -89,22 +94,27 @@ export class UserService {
   }
 
   addToCart(product: Product){
-    if(this._currentUser && this._currentUser.cart.indexOf(product) < 0){
-      this._currentUser.cart.push(product);
-      this.cartChanged.emit(this.cart);
+    if(product && this._currentUser && this._currentUser.cart.value.indexOf(product) < 0){
+      this._currentUser.cart.value.push(product);
+      this._currentUser.cart.next(this._currentUser.cart.value);
+      this._notifications.notify(`${product.title} added to cart`);
     }
   }
 
   removeFromCart(product: Product){
-    let index: number = this._currentUser.cart.indexOf(product);
+    if(!product){
+      return;
+    }
+    let index: number = this._currentUser.cart.value.indexOf(product);
     if(index >= 0){
-      this._currentUser.cart.splice(index, 1);
-      this.cartChanged.emit(this.cart);
+      this._currentUser.cart.value.splice(index, 1);
+      this._currentUser.cart.next(this._currentUser.cart.value);
+      this._notifications.notify(`${product.title} removed to cart`);
     }    
   }
 
   inCart(product: Product){
-    return this._currentUser ? this._currentUser.cart.indexOf(product) >= 0 : false;
+    return this._currentUser ? this._currentUser.cart.value.indexOf(product) >= 0 : false;
   }
 
 }

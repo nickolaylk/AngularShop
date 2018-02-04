@@ -22,14 +22,11 @@ import { error } from 'selenium-webdriver';
 })
 export class ProductListComponent implements OnInit, OnDestroy{
 
-  private _categories: Observable<Category[]>;
   private _selectedCategory: Category = null;
-  private _products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   private _subscription: Subscription;
   
-
   get categories(): Observable<Category[]>{
-    return this._categories;
+    return this._data.categories;
   }
 
   get selectedCategory(): Category{
@@ -45,7 +42,15 @@ export class ProductListComponent implements OnInit, OnDestroy{
     }
   }
   get products(): Observable<Product[]>{
-    return this._products.asObservable();
+    return this._data.products.pipe(
+            filter(o => o.length > 0),
+            map(o=>{
+                let result = o.filter(p => this._selectedCategory == null 
+                                          ? true 
+                                          : p.categoryId === this._selectedCategory.id);
+                return result;
+            })
+        );
   }
 
   get editorEnabled():boolean{
@@ -64,8 +69,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     
-    this._categories = this._data.categories;
-
     this._subscription = this._route.paramMap.subscribe(
       params => {
         let categoryId = params.get('categoryId');
@@ -74,7 +77,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
         }
         else{
           this._selectedCategory = null;
-          this.loadProducts();
         }
       });
 
@@ -85,7 +87,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
   setSelectedCategory(id: number){    
-    this._categories.pipe(
+    this.categories.pipe(
         filter(c => c.length > 0),
         map(c => c.find(c => c.id === id)),
         take(1)
@@ -102,35 +104,20 @@ export class ProductListComponent implements OnInit, OnDestroy{
       });
   }
   
-  private loadProducts(){
-    this._data.getProducts(this._selectedCategory == null ? null : this._selectedCategory.id)
-      .then(o => {
-        console.log(`fetched ${o.length} products`);
-        this._products.next(o);
-        //this.productsChanged.emit(this.products);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-      
-  }
-  
   delete(product: Product){
     this._data.deleteProduct(product);
-    this.loadProducts();
     this.productsChanged.emit(this.products);
   }
   
   edit(product: Product){
-    //this.router.navigate(['/products/edit', product.id ]);
     this._sharedRouting.navigate(Scope.products, ScopePage.editor, product.id.toString());
   }
 
   add(){
-    //this.router.navigate(['/products/add']);
     this._sharedRouting.navigate(Scope.products, ScopePage.add);
   }
 
+  /*
   categoryTrack(index: number, category: Category){
     return category == null ? -1 : category.id;
   }
@@ -138,4 +125,5 @@ export class ProductListComponent implements OnInit, OnDestroy{
   productTrack(index: number, product: Product){
     return product.id;
   }
+  */
 }

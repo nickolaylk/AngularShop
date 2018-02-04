@@ -5,7 +5,7 @@
     <span class="input-group-addon">{{'category' | translate}}</span>
     <select class="form-control" [(ngModel)]="category" 
             name="category" #categoryInput="ngModel" reguired>
-      <option *ngFor="let c of categories" [ngValue] = "c">{{c.title}}</option>
+      <option *ngFor="let c of categories | async" [ngValue] = "c">{{c.title}}</option>
     </select>
     <span class="error-text" *ngIf="!(categoryInput.valid || categoryInput.pristine)">Category is required</span>
   </div>
